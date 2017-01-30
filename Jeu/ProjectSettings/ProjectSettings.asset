@@ -452,8 +452,13 @@ PlayerSettings:
   XboxOneAllowedProductIds: []
   XboxOnePersistentLocalStorageSize: 0
   vrEditorSettings: {}
-  cloudServicesEnabled: {}
-  cloudProjectId: 
-  projectName: 
-  organizationId: 
+  cloudServicesEnabled:
+    Build: 0
+    Collab: 1
+    ErrorHub: 0
+    Hub: 0
+    UNet: 1
+  cloudProjectId: 8bc092b8-c73f-4ac5-96e6-752f53ed0ac4
+  projectName: 3DPlatformer
+  organizationId: sebedena
   cloudEnabled: 0
