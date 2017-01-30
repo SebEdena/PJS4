@@ -23,7 +23,11 @@ public class PlayerController : MonoBehaviour {
     public void Move(Vector3 direction)
     {
         direction.Set(direction.x, rb.velocity.y, direction.z);
-        rb.transform.rotation = Quaternion.FromToRotation(rb.transform.position, direction);
         rb.velocity = direction;
+        Vector3 rota = direction.z * Vector3.forward + direction.x * Vector3.right;
+        if (rota != Vector3.zero) {
+            Quaternion newRotation = Quaternion.LookRotation(rota);
+            rb.MoveRotation(newRotation);
+        }
     }
 }
