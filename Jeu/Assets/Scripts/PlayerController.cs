@@ -5,9 +5,11 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-    public float jumpAngle;
-    public float minimumJump;
-    public float originalJumpRatio;
+    //public float jumpAngle;
+    //public float minimumJump;
+    //public float originalJumpRatio;
+    public float jumpPower;
+    public float speedMult;
 
     private bool canJump = true;
     private Rigidbody rb;
@@ -16,14 +18,10 @@ public class PlayerController : MonoBehaviour {
 	void Start () {
         rb = GetComponent<Rigidbody>();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     public void Move(Vector3 direction)
     {
+        direction *= speedMult;
         direction.Set(direction.x, rb.velocity.y, direction.z);
         rb.velocity = direction;
         Vector3 rota = direction.z * Vector3.forward + direction.x * Vector3.right;
@@ -35,27 +33,31 @@ public class PlayerController : MonoBehaviour {
 
     public void Jump()
     {
-        Debug.Log(canJump);
-        if (canJump)
-        {
-            canJump = false;
-            rb.velocity += Vector3.up * getYVelocity();
-            //rb.velocity.Set(rb.velocity.x, 10f, rb.velocity.z);
-        }
+		if (canJump) {
+			rb.velocity += Vector3.up * getYVelocity ();
+			if (!Mathf.Approximately (rb.velocity.y, 0f))
+				canJump = false;
+			//rb.velocity.Set(rb.velocity.x, 10f, rb.velocity.z);
+		}
     }
 
     private float getYVelocity()
     {
-        return Mathf.Max(Vector3.Magnitude(rb.velocity) * Mathf.Tan(Mathf.Deg2Rad * jumpAngle)*originalJumpRatio, minimumJump);
+        return jumpPower;
+        //return Mathf.Max(Vector3.Magnitude(rb.velocity) * Mathf.Tan(Mathf.Deg2Rad * jumpAngle)*originalJumpRatio, minimumJump);
     }
+
+	public void Die(){
+		//gameObject.SetActive (false);
+		Debug.Log ("Vous êtes morts");
+	}
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Floor")){
-            if(rb.velocity.y == 0)
-            {
-                canJump = true;
-            }
+        if (collision.gameObject.CompareTag("Floor"))
+        {
+            canJump = true;
+            //Debug.Log("You can jump bro");s
         }
     }
 
@@ -63,7 +65,9 @@ public class PlayerController : MonoBehaviour {
     {
         if (collision.gameObject.CompareTag("Floor"))
         {
-            canJump = true;
+			if (Mathf.Approximately (rb.velocity.y, 0f)) {
+				canJump = true;
+			}
         }
     }
 }

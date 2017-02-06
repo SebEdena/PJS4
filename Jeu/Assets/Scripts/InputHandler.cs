@@ -6,14 +6,11 @@ public class InputHandler : MonoBehaviour {
 
     private string verticalAxis = "Vertical";
     private string horizontalAxis = "Horizontal";
-    private string jumpButton = "JumpK";
+    private string jumpButton = "Jump";
     private PlayerController pc;
     private float vValue;
     private float hValue;
     private bool jump;
-
-    public float speedMult;
-
 
     // Use this for initialization
     void Start () {
@@ -32,7 +29,7 @@ public class InputHandler : MonoBehaviour {
 
     void FixedUpdate() {
         Vector3 direction;
-        direction = (Vector3.forward * vValue + Vector3.right * hValue) * speedMult * Time.deltaTime;
+        direction = (Vector3.forward * vValue + Vector3.right * hValue)* Time.deltaTime;
         pc.Move(direction);
         if (jump)
             pc.Jump();
